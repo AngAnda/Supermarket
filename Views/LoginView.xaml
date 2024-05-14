@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Supermarket.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Supermarket.ViewModels"
+             xmlns:local="clr-namespace:Supermarket.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="WhiteSmoke"
+             >
+    <UserControl.DataContext>
+        <vm:LoginViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Login" FontSize="24" FontWeight="Bold" Foreground="#8B0000"
+                   HorizontalAlignment="Center" Margin="0,40,0,20"/>
+
+        <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="1"
+                 Width="250"
+                 Margin="10"
+                 HorizontalAlignment="Center" VerticalAlignment="Top"
+                 FontSize="16" Foreground="#8B0000" 
+                 BorderBrush="#8B0000" 
+                 Background="White"/>
+
+        <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Grid.Row="2" Width="250" Margin="10"
+                     HorizontalAlignment="Center" VerticalAlignment="Top"
+                     FontSize="16" Foreground="#8B0000"
+                     BorderBrush="#8B0000"
+                     Background="White"/>
+
+        <Button Content="Login" Grid.Row="3" Width="250" Height="40" Margin="10"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                Background="#8B0000"
+                Foreground="White" 
+                Command="{Binding LoginCommand}"/>
+    </Grid>
+</UserControl>

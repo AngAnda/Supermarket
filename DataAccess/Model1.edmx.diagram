@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d576578af5c241faa93c7058bad1691d" Name="Diagram1">
+        <EntityTypeShape EntityType="SupermarketModel.BillProduct" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.Bill" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.Category" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.Producer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.Product" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.Stock" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketModel.User" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="SupermarketModel.FK_BillProducts_Bills" ManuallyRouted="false" />
+        <AssociationConnector Association="SupermarketModel.FK_BillProducts_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="SupermarketModel.FK_Bills_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SupermarketModel.FK_Products_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="SupermarketModel.FK_Products_Producers" ManuallyRouted="false" />
+        <AssociationConnector Association="SupermarketModel.FK_Stocks_Products" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
