@@ -27,12 +27,10 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!-- First Row -->
         <Button Content="Stocks" Grid.Row="0" Grid.Column="0" Width="200" Height="50" Margin="5" Background="#FF6347" Foreground="White" Command="{Binding StockCommand}"/>
         <Button Content="Products" Grid.Row="0" Grid.Column="2" Width="200" Height="50" Margin="5" Background="#FF6347" Foreground="White" Command="{Binding ProductCommand}"/>
         <Button Content="Categories" Grid.Row="0" Grid.Column="4" Width="200" Height="50" Margin="5" Background="#FF6347" Foreground="White" Command="{Binding CategoryCommand}"/>
 
-        <!-- Second Row -->
         <Button Content="Producers" Grid.Row="2" Grid.Column="0" Width="200" Height="50" Margin="5" Background="#FF6347" Foreground="White" Command="{Binding ProducersCommand}"/>
         <Button Content="Bills" Grid.Row="2" Grid.Column="2" Width="200" Height="50" Margin="5" Background="#FF6347" Foreground="White" Command="{Binding BillCommand}"/>
         <Button Content="Users" Grid.Row="2" Grid.Column="4" Width="200" Height="50" Margin="5" Background="#FF6347" Foreground="White" Command="{Binding UserCommand}"/>

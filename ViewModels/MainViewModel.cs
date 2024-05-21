@@ -61,6 +61,9 @@ namespace Supermarket.ViewModels
                 case "Cashier":
                     CurrentViewModel = new CashierViewModel();
                     break;
+                case "Producers":
+                    CurrentViewModel = new ProducerViewModel();
+                    break;
             }
         }
     }

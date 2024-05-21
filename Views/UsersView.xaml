@@ -8,33 +8,46 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="WhiteSmoke">
-        
-    
-    
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Input Fields for New/Edit User -->
+        <StackPanel Grid.Row="0" Margin="10" Grid.Column="0">
+            <Label>Username</Label>
+            <TextBox x:Name="UsernameBox" Text="{Binding Username}" Width="200" Height="30" Margin="5"/>
+            <Label>Password</Label>
+            <TextBox x:Name="PasswordBox" Text="{Binding Password}" Width="200" Height="30" Margin="5"/>
+            <CheckBox x:Name="IsAdminCheckBox" Content="Is Admin?" Margin="5" HorizontalAlignment="Center"  IsChecked="{Binding IsAdmin, Mode=TwoWay}"/>
+            <Button Content="Refresh" Command="{Binding RefreshFieldsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
+        </StackPanel>
+
         <!-- List of Users -->
-        <ListView Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10">
+        <ListView Grid.Row="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10" Grid.Column="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserId}" Width="100"/>
                     <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Username}" Width="150"/>
-                    <GridViewColumn Header="Role" DisplayMemberBinding="{Binding Role}" Width="100"/>
+                    <GridViewColumn Header="Role" DisplayMemberBinding="{Binding IsAdmin}" Width="100"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <!-- CRUD Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Add" Command="{Binding AddUserCommand}" Width="100" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
-            <Button Content="Edit" Command="{Binding EditUserCommand}" Width="100" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
-            <Button Content="Delete" Command="{Binding DeleteUserCommand}" Width="100" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
-            <Button Content="Refresh" Command="{Binding RefreshCommand}" Width="100" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
+            <Button Content="Add" Command="{Binding AddUserCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
+            <Button Content="Edit" Command="{Binding EditUserCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
+            <Button Content="Delete" Command="{Binding DeleteUserCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
         </StackPanel>
     </Grid>
 </UserControl>
