@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Supermarket.Views.ProducersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Supermarket.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="WhiteSmoke"
+             >
+    
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Input Fields for New/Edit Producer -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="10">
+            <Label>Producer Name</Label>
+            <TextBox x:Name="ProducerNameBox" Text="{Binding Name}" Width="200" Height="30" Margin="5"/>
+            <Label>Producer Country</Label>
+            <TextBox x:Name="ProducerCountryBox" Text="{Binding Country}" Width="200" Height="30" Margin="5"/>
+            <Button Content="Refresh" Command="{Binding RefreshFieldsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
+        </StackPanel>
+
+        <!-- List of Producers -->
+        <ListView Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Producers}" SelectedItem="{Binding SelectedProducer}" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Producer ID" DisplayMemberBinding="{Binding ProducerId}" Width="100"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProducerName}" Width="150"/>
+                    <GridViewColumn Header="Country" DisplayMemberBinding="{Binding ProducerCountry}" Width="150"/>
+                    <GridViewColumn Header="Enabled" DisplayMemberBinding="{Binding IsEnabled}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- CRUD Buttons -->
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Add" Command="{Binding AddProducerCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
+            <Button Content="Edit" Command="{Binding EditProducerCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
+            <Button Content="Delete" Command="{Binding DeleteProducerCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
