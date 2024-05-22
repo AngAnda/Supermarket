@@ -7,6 +7,7 @@ namespace Supermarket.Business
     public class ProducersService
     {
 
+
         SupermarketEntities _context;
 
         public ProducersService()
@@ -31,7 +32,7 @@ namespace Supermarket.Business
 
         public ObservableCollection<Producer> GetAll()
         {
-            return new ObservableCollection<Producer>(_context.Producers.ToList());
+            return new ObservableCollection<Producer>(_context.Producers.Select(p => p).Where(p => p.IsEnabled == true).ToList());
         }
 
         public void Delete(int id)

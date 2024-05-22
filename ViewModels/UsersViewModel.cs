@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Supermarket.Business;
 using Supermarket.DataAccess;
 using System.Collections.ObjectModel;
@@ -63,6 +64,8 @@ namespace Supermarket.ViewModels
 
         private ICommand RefreshFields;
 
+        private ICommand GoBack;
+
         private User selectedUser;
 
         public User SelectedUser
@@ -95,7 +98,6 @@ namespace Supermarket.ViewModels
 
             Users = userService.GetAll();
 
-            //Users = supermarketEntities.Users.ToList();
         }
 
         public ICommand AddUserCommand
@@ -164,6 +166,17 @@ namespace Supermarket.ViewModels
                     Username = "";
                     Password = "";
                     IsAdmin = false;
+                }));
+            }
+        }
+
+        public ICommand GoBackCommand
+        {
+            get
+            {
+                return GoBack ?? (GoBack = new RelayCommand(() =>
+                {
+                    Messenger.Default.Send(new NotificationMessage("Admin"));
                 }));
             }
         }

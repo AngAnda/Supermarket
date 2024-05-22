@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Supermarket.Business;
 using Supermarket.DataAccess;
 using System.Collections.ObjectModel;
@@ -65,6 +66,7 @@ namespace Supermarket.ViewModels
         public ICommand DeleteProducer;
         public ICommand SaveProducer;
         public ICommand RefreshFields;
+        public ICommand GoBack;
 
         public ProducerViewModel()
         {
@@ -131,6 +133,17 @@ namespace Supermarket.ViewModels
                     SelectedProducer = null;
                     Name = "";
                     Country = "";
+                }));
+            }
+        }
+
+        public ICommand GoBackCommand
+        {
+            get
+            {
+                return GoBack ?? (GoBack = new RelayCommand(() =>
+                {
+                    Messenger.Default.Send(new NotificationMessage("Admin"));
                 }));
             }
         }

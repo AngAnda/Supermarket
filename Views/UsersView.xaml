@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -22,8 +23,16 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Button Grid.Row="0" Grid.Column="0" Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE112;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+                <TextBlock Text=" Back" VerticalAlignment="Center" FontSize="16"/>
+            </StackPanel>
+        </Button>
+
+
         <!-- Input Fields for New/Edit User -->
-        <StackPanel Grid.Row="0" Margin="10" Grid.Column="0">
+        <StackPanel Grid.Row="1" Margin="10" Grid.Column="0">
             <Label>Username</Label>
             <TextBox x:Name="UsernameBox" Text="{Binding Username}" Width="200" Height="30" Margin="5"/>
             <Label>Password</Label>
@@ -33,7 +42,7 @@
         </StackPanel>
 
         <!-- List of Users -->
-        <ListView Grid.Row="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10" Grid.Column="1">
+        <ListView Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10" Grid.Column="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserId}" Width="100"/>

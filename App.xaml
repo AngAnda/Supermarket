@@ -18,8 +18,14 @@
             <DataTemplate DataType="{x:Type vm:UsersViewModel}">
                 <v:UsersView/>
             </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ProducerViewModel}">
-            <v:ProducersView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ProducerViewModel}">
+                <v:ProducersView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:CategoryViewModel}">
+                <v:CategoriesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ProductViewModel}">
+                <v:ProductView/>
+            </DataTemplate>
     </Application.Resources>
 </Application>
