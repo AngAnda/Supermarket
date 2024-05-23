@@ -4,10 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Supermarket.Views"
+             xmlns:convertors="clr-namespace:Supermarket.Views.Convertors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="WhiteSmoke"
              >
+    <UserControl.Resources>
+        <convertors:IdToNameConvertor x:Key="IdToNameConverter"/>
+    </UserControl.Resources>
+
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -23,46 +28,53 @@
         </Grid.ColumnDefinitions>
 
         <!-- Back Button -->
-        <Button Grid.Row="0" Grid.Column="0" Command="{Binding GoBackCommand}" Margin="10" HorizontalAlignment="Left">
+        <Button Grid.Row="0" Grid.Column="0" Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="&#xE112;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
                 <TextBlock Text=" Back" VerticalAlignment="Center" FontSize="16"/>
             </StackPanel>
         </Button>
-
+        
         <!-- Input Fields for New/Edit Product -->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
             <Label>Product Name</Label>
-            <TextBox x:Name="ProductNameBox" Text="{Binding ProductName}" Width="200" Height="30" Margin="5"/>
+            <TextBox x:Name="ProductNameBox" Text="{Binding ProductName}" Width="200" Height="20" Margin="5"/>
             <Label>Barcode</Label>
-            <TextBox x:Name="BarcodeBox" Text="{Binding Barcode}" Width="200" Height="30" Margin="5"/>
+            <TextBox x:Name="BarcodeBox" Text="{Binding Barcode}" Width="200" Height="20" Margin="5"/>
             <Label>Category</Label>
             <ComboBox x:Name="CategoryComboBox"
                       SelectedValue="{Binding CategoryId, Mode=TwoWay}"
                       DisplayMemberPath="CategoryName"
                       SelectedValuePath="CategoryId"
                       ItemsSource="{Binding Categories}" 
-                      Width="200" Height="30" Margin="5"/>
+                      Width="200" Height="20" Margin="5"/>
             <Label>Producer</Label>
             <ComboBox x:Name="ProducerComboBox"
                       SelectedValue="{Binding ProducerId, Mode=TwoWay}"
                       DisplayMemberPath="ProducerName"
                       SelectedValuePath="ProducerId"
                       ItemsSource="{Binding Producers}" 
-                      Width="200" Height="30" Margin="5"/>
-            <CheckBox x:Name="IsEnabledCheckBox" Content="Is Enabled?" IsChecked="{Binding SelectedProduct.IsEnabled, Mode=TwoWay}" Margin="5"/>
-            <Button Content="Save" Command="{Binding SaveProductCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
+                      Width="200" Height="20" Margin="5"/>
+            <Button Content="Refresh" Command="{Binding RefreshFieldsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
         </StackPanel>
 
         <!-- List of Products -->
         <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Margin="10">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Product ID" DisplayMemberBinding="{Binding ProductId}" Width="100"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="150"/>
-                    <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Barcode}" Width="150"/>
-                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding CategoryId}" Width="150"/>
-                    <GridViewColumn Header="Producer" DisplayMemberBinding="{Binding ProducerId}" Width="150"/>
+                    <GridViewColumn Header="Product ID" DisplayMemberBinding="{Binding ProductId}" Width="60"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="60"/>
+                    <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Barcode}" Width="60"/>
+                    <GridViewColumn Header="Category" Width="60">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <Binding Path="CategoryId" Converter="{StaticResource IdToNameConverter}" ConverterParameter="Category"/>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Producer" Width="60">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <Binding Path="ProducerId" Converter="{StaticResource IdToNameConverter}" ConverterParameter="Producer"/>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

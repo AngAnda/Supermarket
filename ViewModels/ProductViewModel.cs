@@ -161,7 +161,7 @@ namespace Supermarket.ViewModels
             EditProductCommand = new RelayCommand(EditProduct, CanEditOrDelete);
             DeleteProductCommand = new RelayCommand(DeleteProduct, CanEditOrDelete);
             RefreshFieldsCommand = new RelayCommand(RefreshFields);
-            GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("GoBack")));
+            GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Admin")));
         }
 
         private void AddProduct()
@@ -206,7 +206,6 @@ namespace Supermarket.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 productService.Delete(SelectedProduct.ProductId);
-                Products.Remove(SelectedProduct);
                 Products = productService.GetAll();
             }
         }

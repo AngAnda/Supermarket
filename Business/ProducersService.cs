@@ -40,5 +40,10 @@ namespace Supermarket.Business
             _context.spDeleteProducer(id);
         }
 
+        public Producer GetById(int id)
+        {
+            return _context.Producers.FirstOrDefault(p => p.ProducerId == id);
+        }
+
     }
 }

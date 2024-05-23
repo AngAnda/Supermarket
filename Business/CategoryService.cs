@@ -37,5 +37,10 @@ namespace Supermarket.Business
         {
             return new ObservableCollection<Category>(_context.Categories.Select(c => c).Where(c => c.IsEnabled == true).ToList());
         }
+
+        public Category GetById(int id)
+        {
+            return _context.Categories.First(c => c.CategoryId == id);
+        }
     }
 }
