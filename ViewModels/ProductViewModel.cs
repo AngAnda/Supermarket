@@ -176,8 +176,6 @@ namespace Supermarket.ViewModels
             };
             productService.AddProduct(newProduct);
             Products = productService.GetAll();
-
-            //Products.Add(newProduct);
         }
 
         private void EditProduct()

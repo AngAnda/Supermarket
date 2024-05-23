@@ -85,6 +85,7 @@
     <Compile Include="Business\CategoryService.cs" />
     <Compile Include="Business\LoginService.cs" />
     <Compile Include="Business\ProducersService.cs" />
+    <Compile Include="Business\StockService.cs" />
     <Compile Include="Business\UserService.cs" />
     <Compile Include="DataAccess\Bill.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -179,6 +180,9 @@
     <Compile Include="Views\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StockView.xaml.cs">
+      <DependentUpon>StockView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
@@ -215,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
