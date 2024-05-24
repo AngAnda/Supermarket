@@ -50,6 +50,7 @@
                      PreviewTextInput="ProducerCountryBox_PreviewTextInput"
                      />
             <Button Content="Refresh" Command="{Binding RefreshFieldsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
+            <Button Content="List products" Command="{Binding ListProductsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
         </StackPanel>
 
         <!-- List of Producers -->

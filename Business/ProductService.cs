@@ -45,5 +45,17 @@ namespace Supermarket.Business
                 foundProduct.IsEnabled = ((Product)productToUpdate).IsEnabled;
             }
         }
+
+        public ObservableCollection<Product> GetByProducer(int? producerId = null)
+        {
+            IQueryable<Product> query = _context.Products.Select(p => p).Where(p => p.IsEnabled == true);
+
+            if (producerId.HasValue)
+            {
+                query = query.Where(p => p.ProducerId == producerId);
+            }
+
+            return new ObservableCollection<Product>(query.ToList());
+        }
     }
 }

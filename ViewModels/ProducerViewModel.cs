@@ -72,6 +72,7 @@ namespace Supermarket.ViewModels
         public RelayCommand DeleteProducer;
         public RelayCommand SaveProducer;
         public RelayCommand RefreshFields;
+        public RelayCommand ListProducts;
         public RelayCommand GoBack;
 
         public ProducerViewModel()
@@ -150,6 +151,17 @@ namespace Supermarket.ViewModels
                 return GoBack ?? (GoBack = new RelayCommand(() =>
                 {
                     Messenger.Default.Send(new NotificationMessage("Admin"));
+                }));
+            }
+        }
+
+        public RelayCommand ListProductsCommand
+        {
+            get
+            {
+                return ListProducts ?? (ListProducts = new RelayCommand(() =>
+                {
+                    Messenger.Default.Send(new NotificationMessage("ProductProducers"));
                 }));
             }
         }

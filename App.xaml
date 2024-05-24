@@ -30,5 +30,8 @@
             <DataTemplate DataType="{x:Type vm:StockViewModel}">
                 <v:StockView/>
             </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProductProducerViewModel}">
+            <v:ProductsProducer/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

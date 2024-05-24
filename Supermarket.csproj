@@ -158,6 +158,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ProducerViewModel.cs" />
     <Compile Include="Business\ProductService.cs" />
+    <Compile Include="ViewModels\ProductProducerViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\StockViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
@@ -176,6 +177,9 @@
     </Compile>
     <Compile Include="Views\ProducersView.xaml.cs">
       <DependentUpon>ProducersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductsProducer.xaml.cs">
+      <DependentUpon>ProductsProducer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
@@ -215,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProducersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductsProducer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
