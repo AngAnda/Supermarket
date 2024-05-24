@@ -38,9 +38,20 @@
         <!-- Input Fields for New/Edit Product -->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
             <Label>Product Name</Label>
-            <TextBox x:Name="ProductNameBox" Text="{Binding ProductName}" Width="200" Height="20" Margin="5"/>
+            <TextBox x:Name="ProductNameBox" 
+                     Text="{Binding ProductName, Mode=TwoWay}"
+                     Width="200"
+                     Height="20" 
+                     Margin="5"
+                     />
             <Label>Barcode</Label>
-            <TextBox x:Name="BarcodeBox" Text="{Binding Barcode}" Width="200" Height="20" Margin="5"/>
+            <TextBox x:Name="BarcodeBox"
+                     Text="{Binding Barcode, Mode=TwoWay}"
+                     Width="200"
+                     Height="20"
+                     Margin="5"
+                     PreviewTextInput="BarcodeBox_PreviewTextInput"
+                     />
             <Label>Category</Label>
             <ComboBox x:Name="CategoryComboBox"
                       SelectedValue="{Binding CategoryId, Mode=TwoWay}"
@@ -63,7 +74,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Product ID" DisplayMemberBinding="{Binding ProductId}" Width="60"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="60"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="60" />
                     <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Barcode}" Width="60"/>
                     <GridViewColumn Header="Category" Width="60">
                         <GridViewColumn.DisplayMemberBinding>

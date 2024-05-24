@@ -4,7 +4,6 @@ using Supermarket.Business;
 using Supermarket.DataAccess;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Supermarket.ViewModels
 {
@@ -31,6 +30,8 @@ namespace Supermarket.ViewModels
             {
                 productId = value;
                 OnPropertyChanged(nameof(ProductId));
+                AddProductCommand.RaiseCanExecuteChanged();
+                EditProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -41,6 +42,9 @@ namespace Supermarket.ViewModels
             {
                 productName = value;
                 OnPropertyChanged(nameof(ProductName));
+
+                AddProductCommand.RaiseCanExecuteChanged();
+                EditProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -51,6 +55,9 @@ namespace Supermarket.ViewModels
             {
                 barcode = value;
                 OnPropertyChanged(nameof(Barcode));
+
+                AddProductCommand.RaiseCanExecuteChanged();
+                EditProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -61,6 +68,9 @@ namespace Supermarket.ViewModels
             {
                 categoryId = value;
                 OnPropertyChanged(nameof(CategoryId));
+
+                AddProductCommand.RaiseCanExecuteChanged();
+                EditProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -71,6 +81,8 @@ namespace Supermarket.ViewModels
             {
                 producerId = value;
                 OnPropertyChanged(nameof(ProducerId));
+                AddProductCommand.RaiseCanExecuteChanged();
+                EditProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -81,6 +93,9 @@ namespace Supermarket.ViewModels
             {
                 isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
+
+                AddProductCommand.RaiseCanExecuteChanged();
+                EditProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -111,6 +126,9 @@ namespace Supermarket.ViewModels
                     CategoryId = selectedProduct.CategoryId;
                     ProducerId = selectedProduct.ProducerId;
                     IsEnabled = selectedProduct.IsEnabled;
+
+                    DeleteProductCommand.RaiseCanExecuteChanged();
+                    EditProductCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -136,11 +154,11 @@ namespace Supermarket.ViewModels
         }
 
 
-        public ICommand AddProductCommand { get; private set; }
-        public ICommand EditProductCommand { get; private set; }
-        public ICommand DeleteProductCommand { get; private set; }
-        public ICommand RefreshFieldsCommand { get; private set; }
-        public ICommand GoBackCommand { get; private set; }
+        public RelayCommand AddProductCommand { get; private set; }
+        public RelayCommand EditProductCommand { get; private set; }
+        public RelayCommand DeleteProductCommand { get; private set; }
+        public RelayCommand RefreshFieldsCommand { get; private set; }
+        public RelayCommand GoBackCommand { get; private set; }
 
         public ProductViewModel()
         {
@@ -157,9 +175,9 @@ namespace Supermarket.ViewModels
 
         private void InitializeCommands()
         {
-            AddProductCommand = new RelayCommand(AddProduct);
-            EditProductCommand = new RelayCommand(EditProduct, CanEditOrDelete);
-            DeleteProductCommand = new RelayCommand(DeleteProduct, CanEditOrDelete);
+            AddProductCommand = new RelayCommand(AddProduct, CanAdd);
+            EditProductCommand = new RelayCommand(EditProduct, CanEdit);
+            DeleteProductCommand = new RelayCommand(DeleteProduct, CanDelete);
             RefreshFieldsCommand = new RelayCommand(RefreshFields);
             GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Admin")));
         }
@@ -193,11 +211,6 @@ namespace Supermarket.ViewModels
             }
         }
 
-        private bool CanEditOrDelete()
-        {
-            return true;
-        }
-
         private void DeleteProduct()
         {
             MessageBoxResult result = MessageBox.Show("Do you want to delete this product?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -215,6 +228,24 @@ namespace Supermarket.ViewModels
             CategoryId = 0;
             ProducerId = 0;
             IsEnabled = false;
+        }
+
+        private bool CanAdd()
+        {
+            return !string.IsNullOrWhiteSpace(ProductName) &&
+                   !string.IsNullOrWhiteSpace(Barcode) &&
+                   CategoryId > 0 &&
+                   ProducerId > 0;
+        }
+
+        private bool CanDelete()
+        {
+            return SelectedProduct != null;
+        }
+
+        private bool CanEdit()
+        {
+            return CanAdd() && CanDelete();
         }
     }
 }

@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Supermarket.Business;
 using Supermarket.DataAccess;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Supermarket.ViewModels
 {
@@ -22,6 +21,8 @@ namespace Supermarket.ViewModels
             {
                 name = value;
                 OnPropertyChanged(nameof(Name));
+                AddProducerCommand.RaiseCanExecuteChanged();
+                EditProducerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -32,6 +33,8 @@ namespace Supermarket.ViewModels
             {
                 country = value;
                 OnPropertyChanged(nameof(Country));
+                AddProducerCommand.RaiseCanExecuteChanged();
+                EditProducerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -46,6 +49,8 @@ namespace Supermarket.ViewModels
                     OnPropertyChanged(nameof(SelectedProducer));
                     Name = SelectedProducer.ProducerName;
                     Country = SelectedProducer.ProducerCountry;
+                    DeleteProducerCommand.RaiseCanExecuteChanged();
+                    EditProducerCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -58,15 +63,16 @@ namespace Supermarket.ViewModels
             {
                 producers = value;
                 OnPropertyChanged(nameof(Producers));
+
             }
         }
 
-        public ICommand AddProducer;
-        public ICommand EditProducer;
-        public ICommand DeleteProducer;
-        public ICommand SaveProducer;
-        public ICommand RefreshFields;
-        public ICommand GoBack;
+        public RelayCommand AddProducer;
+        public RelayCommand EditProducer;
+        public RelayCommand DeleteProducer;
+        public RelayCommand SaveProducer;
+        public RelayCommand RefreshFields;
+        public RelayCommand GoBack;
 
         public ProducerViewModel()
         {
@@ -74,7 +80,7 @@ namespace Supermarket.ViewModels
             Producers = producersService.GetAll();
         }
 
-        public ICommand AddProducerCommand
+        public RelayCommand AddProducerCommand
         {
             get
             {
@@ -87,12 +93,12 @@ namespace Supermarket.ViewModels
                     Producers = producersService.GetAll();
                     Name = "";
                     Country = "";
-                }));
+                }, CanAdd));
             }
 
         }
 
-        public ICommand EditProducerCommand
+        public RelayCommand EditProducerCommand
         {
             get
             {
@@ -102,11 +108,11 @@ namespace Supermarket.ViewModels
                     Producers = producersService.GetAll();
                     Name = "";
                     Country = "";
-                }));
+                }, CanEdit));
             }
         }
 
-        public ICommand DeleteProducerCommand
+        public RelayCommand DeleteProducerCommand
         {
             get
             {
@@ -120,11 +126,11 @@ namespace Supermarket.ViewModels
                         Name = "";
                         Country = "";
                     }
-                }));
+                }, CanDelete));
             }
         }
 
-        public ICommand RefreshFieldsCommand
+        public RelayCommand RefreshFieldsCommand
         {
             get
             {
@@ -137,7 +143,7 @@ namespace Supermarket.ViewModels
             }
         }
 
-        public ICommand GoBackCommand
+        public RelayCommand GoBackCommand
         {
             get
             {
@@ -146,6 +152,23 @@ namespace Supermarket.ViewModels
                     Messenger.Default.Send(new NotificationMessage("Admin"));
                 }));
             }
+        }
+
+        public bool CanAdd()
+        {
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Country))
+                return false;
+            return true;
+        }
+
+        public bool CanEdit()
+        {
+            return CanAdd() && CanDelete();
+        }
+
+        public bool CanDelete()
+        {
+            return (SelectedProducer != null);
         }
 
     }

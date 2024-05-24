@@ -34,9 +34,21 @@
         <!-- Input Fields for New/Edit Producer -->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
             <Label>Producer Name</Label>
-            <TextBox x:Name="ProducerNameBox" Text="{Binding Name}" Width="200" Height="30" Margin="5"/>
+            <TextBox x:Name="ProducerNameBox" 
+                     Text="{Binding Name, Mode=TwoWay}"
+                     Width="200"
+                     Height="30"
+                     Margin="5"
+                     PreviewTextInput="ProducerNameBox_PreviewTextInput"
+                     />
             <Label>Producer Country</Label>
-            <TextBox x:Name="ProducerCountryBox" Text="{Binding Country}" Width="200" Height="30" Margin="5"/>
+            <TextBox x:Name="ProducerCountryBox" 
+                     Text="{Binding Country, Mode=TwoWay}"
+                     Width="200"
+                     Height="30"
+                     Margin="5"
+                     PreviewTextInput="ProducerCountryBox_PreviewTextInput"
+                     />
             <Button Content="Refresh" Command="{Binding RefreshFieldsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
         </StackPanel>
 

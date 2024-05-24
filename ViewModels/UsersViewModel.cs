@@ -4,7 +4,6 @@ using Supermarket.Business;
 using Supermarket.DataAccess;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Supermarket.ViewModels
 {
@@ -23,6 +22,8 @@ namespace Supermarket.ViewModels
             {
                 username = value;
                 OnPropertyChanged(nameof(Username));
+                AddUserCommand.RaiseCanExecuteChanged();
+                EditUserCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -34,6 +35,8 @@ namespace Supermarket.ViewModels
             {
                 password = value;
                 OnPropertyChanged(nameof(password));
+                AddUserCommand.RaiseCanExecuteChanged();
+                EditUserCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -45,6 +48,9 @@ namespace Supermarket.ViewModels
             {
                 isAdmin = value;
                 OnPropertyChanged(nameof(isAdmin));
+                AddUserCommand.RaiseCanExecuteChanged();
+                EditUserCommand.RaiseCanExecuteChanged();
+
             }
         }
 
@@ -52,19 +58,17 @@ namespace Supermarket.ViewModels
 
         private ObservableCollection<User> users;
 
-        private SupermarketEntities supermarketEntities;
-
         private UserService userService;
 
-        private ICommand AddUsers;
+        private RelayCommand AddUsers;
 
-        private ICommand EditUsers;
+        private RelayCommand EditUsers;
 
-        private ICommand DeleteUsers;
+        private RelayCommand DeleteUsers;
 
-        private ICommand RefreshFields;
+        private RelayCommand RefreshFields;
 
-        private ICommand GoBack;
+        private RelayCommand GoBack;
 
         private User selectedUser;
 
@@ -75,9 +79,16 @@ namespace Supermarket.ViewModels
             {
                 selectedUser = value;
                 OnPropertyChanged(nameof(SelectedUser));
-                Username = SelectedUser.Username;
-                Password = SelectedUser.Password;
-                IsAdmin = SelectedUser.IsAdmin;
+                if (value != null)
+                {
+                    Username = SelectedUser.Username;
+                    Password = SelectedUser.Password;
+                    IsAdmin = SelectedUser.IsAdmin;
+                }
+                else
+                    Username = Password = "";
+                DeleteUserCommand.RaiseCanExecuteChanged();
+                EditUserCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -93,14 +104,13 @@ namespace Supermarket.ViewModels
 
         public UsersViewModel()
         {
-            supermarketEntities = new SupermarketEntities();
             userService = new UserService();
 
             Users = userService.GetAll();
 
         }
 
-        public ICommand AddUserCommand
+        public RelayCommand AddUserCommand
         {
             get
             {
@@ -109,16 +119,15 @@ namespace Supermarket.ViewModels
                     User user = new User() { Username = username, Password = password, IsAdmin = isAdmin };
 
                     userService.Add(user);
+                    Users = userService.GetAll();
 
-                    Users.Add(user);
-                    supermarketEntities.Users.Add(user);
-                }));
+                }, CanAdd));
 
 
             }
         }
 
-        public ICommand EditUserCommand
+        public RelayCommand EditUserCommand
         {
             get
             {
@@ -135,11 +144,11 @@ namespace Supermarket.ViewModels
 
                     Users = userService.GetAll();
 
-                }));
+                }, CanEdit));
             }
         }
 
-        public ICommand DeleteUserCommand
+        public RelayCommand DeleteUserCommand
         {
             get
             {
@@ -153,11 +162,11 @@ namespace Supermarket.ViewModels
                         Users = userService.GetAll();
                     }
 
-                }));
+                }, CanDelete));
             }
         }
 
-        public ICommand RefreshFieldsCommand
+        public RelayCommand RefreshFieldsCommand
         {
             get
             {
@@ -170,7 +179,7 @@ namespace Supermarket.ViewModels
             }
         }
 
-        public ICommand GoBackCommand
+        public RelayCommand GoBackCommand
         {
             get
             {
@@ -181,5 +190,22 @@ namespace Supermarket.ViewModels
             }
         }
 
+
+        public bool CanAdd()
+        {
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+                return false;
+            return true;
+        }
+
+        public bool CanDelete()
+        {
+            return (SelectedUser != null);
+        }
+
+        public bool CanEdit()
+        {
+            return CanDelete() && CanAdd();
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace Supermarket.Business
         public void Add(Stock stock)
         {
             stock.IsEnabled = true;
+            stock.StockSellingPrice = stock.StockPurchasePrice + (stock.StockPurchasePrice * vta / 100);
             _context.Stocks.Add(stock);
             _context.SaveChanges();
         }

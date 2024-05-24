@@ -20,6 +20,8 @@ namespace Supermarket.ViewModels
             {
                 _stocks = value;
                 OnPropertyChanged(nameof(Stocks));
+                AddStockCommand.RaiseCanExecuteChanged();
+                EditStockCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -40,6 +42,8 @@ namespace Supermarket.ViewModels
                     StockPurchasePrice = value.StockPurchasePrice;
                     StockSellingPrice = value.StockSellingPrice;
                     ProductId = value.ProductId;
+                    DeleteStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -61,6 +65,8 @@ namespace Supermarket.ViewModels
                 {
                     _stockQuantity = value;
                     OnPropertyChanged(nameof(StockQuantity));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -74,6 +80,8 @@ namespace Supermarket.ViewModels
                 {
                     _stockUnitOfMeasure = value;
                     OnPropertyChanged(nameof(StockUnitOfMeasure));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -87,6 +95,8 @@ namespace Supermarket.ViewModels
                 {
                     _stockSupplyDate = value;
                     OnPropertyChanged(nameof(StockSupplyDate));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -100,6 +110,8 @@ namespace Supermarket.ViewModels
                 {
                     _stockExpirationDate = value;
                     OnPropertyChanged(nameof(StockExpirationDate));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -113,6 +125,8 @@ namespace Supermarket.ViewModels
                 {
                     _stockPurchasePrice = value;
                     OnPropertyChanged(nameof(StockPurchasePrice));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -126,6 +140,8 @@ namespace Supermarket.ViewModels
                 {
                     _stockSellingPrice = value;
                     OnPropertyChanged(nameof(StockSellingPrice));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -139,6 +155,8 @@ namespace Supermarket.ViewModels
                 {
                     _productId = value;
                     OnPropertyChanged(nameof(ProductId));
+                    AddStockCommand.RaiseCanExecuteChanged();
+                    EditStockCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -152,6 +170,8 @@ namespace Supermarket.ViewModels
             {
                 products = value;
                 OnPropertyChanged(nameof(Products));
+                AddStockCommand.RaiseCanExecuteChanged();
+                EditStockCommand.RaiseCanExecuteChanged();
             }
         }
         public RelayCommand AddStockCommand { get; private set; }
@@ -159,25 +179,25 @@ namespace Supermarket.ViewModels
         public RelayCommand DeleteStockCommand { get; private set; }
         public RelayCommand GoBackCommand { get; private set; }
 
-        public RelayCommand RelayCommand { get; private set; }
+        public RelayCommand RefreshFieldsCommand { get; private set; }
 
         public StockViewModel()
         {
             _stockService = new StockService();
             _productService = new ProductService();
+            RegisterCommands();
             Stocks = _stockService.GetAll();
             Products = _productService.GetAll();
-            RegisterCommands();
         }
 
 
 
         private void RegisterCommands()
         {
-            AddStockCommand = new RelayCommand(AddStock);
-            EditStockCommand = new RelayCommand(EditStock, CanEditOrDelete);
-            DeleteStockCommand = new RelayCommand(DeleteStock, CanEditOrDelete);
-            RelayCommand = new RelayCommand(RefreshFields);
+            AddStockCommand = new RelayCommand(AddStock, CandAdd);
+            EditStockCommand = new RelayCommand(EditStock, CanEdit);
+            DeleteStockCommand = new RelayCommand(DeleteStock, CanDelete);
+            RefreshFieldsCommand = new RelayCommand(RefreshFields);
             GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Admin")));
         }
 
@@ -238,6 +258,28 @@ namespace Supermarket.ViewModels
             StockPurchasePrice = 0;
             StockSellingPrice = 0;
             ProductId = 0;
+        }
+
+        private bool CandAdd()
+        {
+            if (_productId.Equals(0)
+                || _stockQuantity.Equals(0)
+                || _stockPurchasePrice.Equals(0)
+                || _stockUnitOfMeasure.Equals(""))
+                return false;
+            return true;
+        }
+
+        private bool CanDelete()
+        {
+            if (SelectedStock == null)
+                return false;
+            return true;
+        }
+
+        private bool CanEdit()
+        {
+            return CandAdd() && CanDelete();
         }
     }
 }

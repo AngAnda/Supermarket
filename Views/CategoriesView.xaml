@@ -34,7 +34,13 @@
         <!-- Input Fields for New/Edit Category -->
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
             <Label>Category Name</Label>
-            <TextBox x:Name="CategoryNameBox" Text="{Binding Name}" Width="200" Height="30" Margin="5"/>
+            <TextBox x:Name="CategoryNameBox" 
+                     Text="{Binding Name, Mode=TwoWay}"
+                     Width="200"
+                     Height="30"
+                     Margin="5"
+                     PreviewTextInput="CategoryNameBox_PreviewTextInput"
+                     />
             <Button Content="Refresh" Command="{Binding RefreshCommand}" Width="200" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
         </StackPanel>
 

@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Supermarket.Business;
 using Supermarket.DataAccess;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Supermarket.ViewModels
 {
@@ -31,6 +30,9 @@ namespace Supermarket.ViewModels
             {
                 _selectedCategory = value;
                 OnPropertyChanged(nameof(SelectedCategory));
+                EditCategoryCommand.RaiseCanExecuteChanged();
+                DeleteCategoryCommand.RaiseCanExecuteChanged();
+                Name = SelectedCategory.CategoryName;
             }
         }
 
@@ -41,24 +43,27 @@ namespace Supermarket.ViewModels
             {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+                AddCategoryCommand.RaiseCanExecuteChanged();
+                EditCategoryCommand.RaiseCanExecuteChanged();
+
             }
         }
 
-        public ICommand AddCategoryCommand { get; private set; }
-        public ICommand EditCategoryCommand { get; private set; }
-        public ICommand DeleteCategoryCommand { get; private set; }
-        public ICommand GoBackCommand { get; private set; }
-        public ICommand RefreshCommand { get; private set; }
+        public RelayCommand AddCategoryCommand { get; private set; }
+        public RelayCommand EditCategoryCommand { get; private set; }
+        public RelayCommand DeleteCategoryCommand { get; private set; }
+        public RelayCommand GoBackCommand { get; private set; }
+        public RelayCommand RefreshCommand { get; private set; }
 
         public CategoryViewModel()
         {
             categoryService = new CategoryService();
-            Categories = categoryService.GetAll();
-            AddCategoryCommand = new RelayCommand(AddCategory);
+            AddCategoryCommand = new RelayCommand(AddCategory, CanAdd);
             EditCategoryCommand = new RelayCommand(EditCategory, CanEditOrDelete);
             DeleteCategoryCommand = new RelayCommand(DeleteCategory, CanEditOrDelete);
             GoBackCommand = new RelayCommand(GoBack);
             RefreshCommand = new RelayCommand(() => Name = string.Empty);
+            Categories = categoryService.GetAll();
         }
 
         private void AddCategory()
@@ -99,7 +104,11 @@ namespace Supermarket.ViewModels
 
         private bool CanEditOrDelete()
         {
-            //return SelectedCategory != null;
+            return (SelectedCategory != null);
+        }
+
+        private bool CanAdd()
+        {
             return true;
         }
 
