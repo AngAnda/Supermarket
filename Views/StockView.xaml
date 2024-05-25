@@ -45,9 +45,12 @@
                 <DatePicker FontSize="15" SelectedDate="{Binding StockExpirationDate}" Width="200" Height="25" />
 
                 <Label>Purchase Price</Label>
-            <TextBox x:Name="StockPurchasePriceBox" Text="{Binding StockPurchasePrice, Mode=TwoWay}" Width="200" Height="20" PreviewTextInput="StockPurchasePriceBox_PreviewTextInput"/>
+                <TextBox x:Name="StockPurchasePriceBox" Text="{Binding StockPurchasePrice, Mode=TwoWay}" Width="200" Height="20" PreviewTextInput="StockPurchasePriceBox_PreviewTextInput"/>
 
-                <Label>Product</Label>
+                <Label>Selling Price</Label>
+                <TextBox x:Name="StockSellingPriceBox" Text="{Binding StockSellingPrice, Mode=TwoWay}" Width="200" Height="20" PreviewTextInput="StockPurchasePriceBox_PreviewTextInput"/>
+
+            <Label>Product</Label>
                 <ComboBox x:Name="ProductComboBox"
                           SelectedValue="{Binding ProductId, Mode=TwoWay}"
                           DisplayMemberPath="ProductName"

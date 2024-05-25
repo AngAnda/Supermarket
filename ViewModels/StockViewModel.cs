@@ -4,6 +4,7 @@ using Supermarket.Business;
 using Supermarket.DataAccess;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Supermarket.ViewModels
 {
@@ -11,6 +12,7 @@ namespace Supermarket.ViewModels
     {
         private readonly StockService _stockService;
         private readonly ProductService _productService;
+
 
         private ObservableCollection<Stock> _stocks;
         public ObservableCollection<Stock> Stocks
@@ -210,7 +212,6 @@ namespace Supermarket.ViewModels
                 StockSupplyDate = StockSupplyDate,
                 StockExpirationDate = StockExpirationDate,
                 StockPurchasePrice = StockPurchasePrice,
-                StockSellingPrice = StockSellingPrice,
                 ProductId = ProductId
             };
             _stockService.Add(newStock);
@@ -226,18 +227,19 @@ namespace Supermarket.ViewModels
                 SelectedStock.StockUnitOfMeasure = StockUnitOfMeasure;
                 SelectedStock.StockSupplyDate = StockSupplyDate;
                 SelectedStock.StockExpirationDate = StockExpirationDate;
-                SelectedStock.StockPurchasePrice = StockPurchasePrice;
                 SelectedStock.StockSellingPrice = StockSellingPrice;
                 SelectedStock.ProductId = ProductId;
 
-                _stockService.Update(SelectedStock);
+                try
+                {
+                    _stockService.Update(SelectedStock);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
                 Stocks = _stockService.GetAll();
             }
-        }
-
-        private bool CanEditOrDelete()
-        {
-            return true;
         }
 
         private void DeleteStock()

@@ -55,6 +55,7 @@ namespace Supermarket.ViewModels
         public RelayCommand GoBackCommand { get; private set; }
         public RelayCommand RefreshCommand { get; private set; }
 
+        public RelayCommand ListCategoriesValueCommand { get; private set; }
         public CategoryViewModel()
         {
             categoryService = new CategoryService();
@@ -64,6 +65,7 @@ namespace Supermarket.ViewModels
             GoBackCommand = new RelayCommand(GoBack);
             RefreshCommand = new RelayCommand(() => Name = string.Empty);
             Categories = categoryService.GetAll();
+            ListCategoriesValueCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("ListCategoriesValue")));
         }
 
         private void AddCategory()

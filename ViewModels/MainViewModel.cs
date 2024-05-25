@@ -18,7 +18,8 @@ namespace Supermarket.ViewModels
 
         public MainViewModel()
         {
-            CurrentViewModel = new LoginViewModel();
+            //CurrentViewModel = new LoginViewModel();
+            CurrentViewModel = new CategoriesValueViewModel();
             Messenger.Default.Register<NotificationMessage>(this, OnReceivedMessage);
 
         }
@@ -66,6 +67,9 @@ namespace Supermarket.ViewModels
                     break;
                 case "ProductProducers":
                     CurrentViewModel = new ProductProducerViewModel();
+                    break;
+                case "ListCategoriesValue":
+                    CurrentViewModel = new CategoriesValueViewModel();
                     break;
             }
         }

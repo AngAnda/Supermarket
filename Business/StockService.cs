@@ -24,11 +24,16 @@ namespace Supermarket.Business
 
         public void Update(Stock stock)
         {
+
+            if (stock.StockSellingPrice < stock.StockPurchasePrice)
+            {
+                throw new InvalidStockPurchasePrice();
+            }
             var stockToUpdate = _context.Stocks.First(s => s.StockId == stock.StockId);
             stockToUpdate.StockUnitOfMeasure = stock.StockUnitOfMeasure;
             stockToUpdate.StockSupplyDate = stock.StockSupplyDate;
             stockToUpdate.StockExpirationDate = stock.StockExpirationDate;
-            stockToUpdate.StockPurchasePrice = stock.StockPurchasePrice;
+            stockToUpdate.StockSellingPrice = stock.StockSellingPrice;
 
             _context.SaveChanges();
         }

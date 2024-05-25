@@ -42,5 +42,23 @@ namespace Supermarket.Business
         {
             return _context.Categories.First(c => c.CategoryId == id);
         }
+
+        public ObservableCollection<(string Name, decimal Value)> GetTotalValues()
+        {
+            var categorySales = _context.Categories
+                .Select(c =>
+                new
+                {
+                    CategoryName = c.CategoryName,
+                    TotalSales = c.Products
+                          .SelectMany(p => p.Stocks)
+                          .Sum(p => (decimal?)p.StockSellingPrice) ?? 0M  // Aplicați '??' aici
+
+                })
+                .ToList()
+                .Select(c => (c.CategoryName, c.TotalSales))
+                .ToList();
+            return new ObservableCollection<(string Name, decimal Value)>(categorySales);
+        }
     }
 }
