@@ -72,6 +72,8 @@ namespace Supermarket.ViewModels
 
         private User selectedUser;
 
+        public RelayCommand ListValueCommand { get; private set; }
+
         public User SelectedUser
         {
             get => selectedUser;
@@ -105,6 +107,8 @@ namespace Supermarket.ViewModels
         public UsersViewModel()
         {
             userService = new UserService();
+
+            ListValueCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("UserValue")));
 
             Users = userService.GetAll();
 
