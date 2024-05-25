@@ -18,23 +18,14 @@ namespace Supermarket.ViewModels
 
         public MainViewModel()
         {
-            //CurrentViewModel = new LoginViewModel();
-            CurrentViewModel = new UserValueViewModel();
+            CurrentViewModel = new LoginViewModel();
+            //CurrentViewModel = new UserValueViewModel();
             Messenger.Default.Register<NotificationMessage>(this, OnReceivedMessage);
 
         }
 
         private void OnReceivedMessage(NotificationMessage message)
         {
-            //if (message.Notification == "Admin")
-            //{
-            //    CurrentViewModel = new AdminViewModel();
-            //}
-            //else if (message.Notification == "Cashier")
-            //{
-            //    CurrentViewModel = new CashierViewModel();
-            //}
-
             string notification = message.Notification;
             switch (notification)
             {

@@ -12,45 +12,82 @@
     <UserControl.DataContext>
         <vm:CashierViewModel/>
     </UserControl.DataContext>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Barcode Search -->
-        <TextBox Grid.ColumnSpan="2" Grid.Row="0" Margin="10" Height="30" 
-                 VerticalAlignment="Top" FontSize="16"
-                 Text="{Binding SearchBarcode, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <!-- Product Display Area -->
-        <ListView Grid.Column="0" Grid.Row="1" Margin="5"
-                  ItemsSource="{Binding ProductList}"
-                  DisplayMemberPath="ProductName" SelectedItem="{Binding SelectedProduct}">
-        </ListView>
-
-        <!-- Selected Products Area -->
-        <ListView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5"
-                  ItemsSource="{Binding SelectedProducts}"
-                  DisplayMemberPath="DetailedInfo">
-        </ListView>
-
-        <!-- Product Details and Add Button -->
-        <StackPanel Grid.Column="0" Grid.Row="2" Margin="5">
-            <TextBlock Text="{Binding SelectedProduct.Description}" Margin="5"/>
-            <Button Content="Add to Cart" Command="{Binding AddProductCommand}" Margin="5" Height="30"/>
+        <!-- Product Search and Selection Panel -->
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="10">
+            <Label Content="Select Product:"/>
+            <ComboBox DisplayMemberPath="ProductName"
+                      SelectedValuePath="ProductId"
+                      ItemsSource="{Binding Products}"
+                      SelectedValue="{Binding SelectedProduct}" />
+            <Label Content="Select Category:"/>
+            <ComboBox DisplayMemberPath="CategoryName"
+                      SelectedValuePath="CategoryId"
+                      ItemsSource="{Binding Categories}"
+                      SelectedValue="{Binding SelectedCategory}" />
+            <Label Content="Select Producer:"/>
+            <ComboBox DisplayMemberPath="ProducerName"
+                      SelectedValuePath="ProducerId"
+                      ItemsSource="{Binding Producers}"
+                      SelectedValue="{Binding SelectedProducer}" />
+            <Label Content="Select Barcode:"/>
+            <ComboBox ItemsSource="{Binding Barcodes}"/>
+            <Label Content="Expiration Date:"/>
+            <DatePicker/>
         </StackPanel>
 
-        <!-- Checkout Button -->
-        <Button Grid.ColumnSpan="2" Grid.Row="3" Content="Generate Receipt" Command="{Binding GenerateReceiptCommand}" 
-                Margin="10" Height="40" Background="#FF6347" Foreground="White"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+            <Label Content="Quantity:"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="-" Width="25"/>
+                <TextBox Text="{Binding Quantity}" Width="50"/>
+                <Button Content="+" Width="25"/>
+            </StackPanel>
+        </StackPanel>
+        <Button Grid.Column="1" Grid.Row="2" Content="Add Product" Command="{Binding AddProductCommand}" Margin="5" Height="30"/>
 
+        <!-- Product Display Area -->
+        <ListView Grid.Column="1" Grid.Row="0" ItemsSource="{Binding FilteredProducts}" Margin="10, 10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductName}" Width="65"/>
+                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="65"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Right Panel for Displaying Selected Products -->
+        <ListView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding SelectedProducts}" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding Name}" Width="120"/>
+                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="60"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Bottom Panel for Actions -->
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE112;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+                    <TextBlock Text=" Back" VerticalAlignment="Center" FontSize="16"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Button Grid.Column="3" Grid.Row="2" Content="Generate Receipt" Command="{Binding GenerateReceiptCommand}" Margin="10" Height="40"/>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using Supermarket.DataAccess;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -56,6 +57,40 @@ namespace Supermarket.Business
             }
 
             return new ObservableCollection<Product>(query.ToList());
+        }
+
+        internal ObservableCollection<string> GetBarcodes()
+        {
+            return new ObservableCollection<string>(_context.Products.Select(p => p.Barcode).ToList());
+        }
+
+        internal ObservableCollection<Product> GetFilteredProducts(int? selectedProduct = null, int? selectedCategory = null, int? selectedProducer = null, DateTime? expirationDate = null)
+        {
+            // to fully implemente
+
+            IQueryable<Product> products = _context.Products.Select(p => p).Where(p => p.IsEnabled == true);
+
+            if (selectedProduct.HasValue)
+            {
+                products = products.Where(p => p.ProductId == selectedProduct.Value);
+            }
+
+            if (selectedCategory.HasValue)
+            {
+                products = products.Where(p => p.CategoryId == selectedCategory.Value);
+            }
+
+            if (selectedProducer.HasValue)
+            {
+                products = products.Where(p => p.ProducerId == selectedProducer.Value);
+            }
+
+            if (expirationDate.HasValue)
+            {
+                // aici are treaba cu stocurile, de vazut
+            }
+
+            return new ObservableCollection<Product>(products);
         }
     }
 }
