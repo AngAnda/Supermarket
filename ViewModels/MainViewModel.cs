@@ -29,6 +29,10 @@ namespace Supermarket.ViewModels
             string notification = message.Notification;
             switch (notification)
             {
+
+                case "Login":
+                    CurrentViewModel = new LoginViewModel();
+                    break;
                 case "Users":
                     CurrentViewModel = new UsersViewModel();
                     break;

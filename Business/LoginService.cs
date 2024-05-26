@@ -35,7 +35,18 @@ namespace Supermarket.Business
             {
                 return UserType.CASHIER;
             }
+        }
 
+        public int GetID(string username, string password)
+        {
+            var result = _context.spGetUserByCredentials(username, password).FirstOrDefault();
+
+            if (result != null)
+            {
+                return result.UserId;
+            }
+
+            return -1;
         }
     }
 }

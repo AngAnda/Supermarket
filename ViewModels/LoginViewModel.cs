@@ -50,8 +50,11 @@ namespace Supermarket.ViewModels
             }
             else if (userType == LoginService.UserType.CASHIER)
             {
+
                 MessageBox.Show("Cashier");
                 Messenger.Default.Send(new NotificationMessage("Cashier"));
+                Messenger.Default.Send(new GenericMessage<int>(_loginService.GetID(Username, Password)), "CashierLogin");
+
             }
             else if (userType == LoginService.UserType.ADMIN)
             {

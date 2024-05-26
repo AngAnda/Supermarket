@@ -27,11 +27,6 @@
 
         <!-- Product Search and Selection Panel -->
         <StackPanel Grid.Column="0" Grid.Row="0" Margin="10">
-            <Label Content="Select Product:"/>
-            <ComboBox DisplayMemberPath="ProductName"
-                      SelectedValuePath="ProductId"
-                      ItemsSource="{Binding Products}"
-                      SelectedValue="{Binding SelectedProduct}" />
             <Label Content="Select Category:"/>
             <ComboBox DisplayMemberPath="CategoryName"
                       SelectedValuePath="CategoryId"
@@ -59,7 +54,12 @@
         <Button Grid.Column="1" Grid.Row="2" Content="Add Product" Command="{Binding AddProductCommand}" Margin="5" Height="30"/>
 
         <!-- Product Display Area -->
-        <ListView Grid.Column="1" Grid.Row="0" ItemsSource="{Binding FilteredProducts}" Margin="10, 10">
+        <ListView Grid.Column="1"
+                  Grid.Row="0"
+                  ItemsSource="{Binding FilteredProducts}"
+                  Margin="10, 10"
+                  SelectedItem="{Binding SelectedProductToAdd}"
+                  >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductName}" Width="65"/>
@@ -69,12 +69,12 @@
         </ListView>
 
         <!-- Right Panel for Displaying Selected Products -->
-        <ListView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding SelectedProducts}" Margin="10">
+        <ListView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding ReceiptProducts}" Margin="10">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding Name}" Width="120"/>
+                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductId}" Width="120"/>
                     <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="60"/>
-                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Sum}" Width="80"/>
                 </GridView>
             </ListView.View>
         </ListView>
