@@ -50,6 +50,7 @@ namespace Supermarket.Business
             billProducts.Add(billProduct);
         }
 
+
         private void ValidateStock(ObservableCollection<BillProduct> billProducts, Product product, int quantity)
         {
             if (quantity <= 0)

@@ -20,61 +20,45 @@
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0" Grid.Column="0" Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
+        <!-- Back Button -->
+        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="&#xE112;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
                 <TextBlock Text=" Back" VerticalAlignment="Center" FontSize="16"/>
             </StackPanel>
         </Button>
-        <ListView ItemsSource="{Binding Source={StaticResource GroupedBills}}">
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock FontWeight="Bold" Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Margin" Value="0,5,0,5"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander IsExpanded="True" BorderBrush="Gray" BorderThickness="0,0,0,1">
-                                            <Expander.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Path=Items[0].Bill.BillId}" FontWeight="Bold" Foreground="Gray" Margin="5,0,5,0"/>
-                                                    <TextBlock Text="{Binding Path=Items[0].Bill.BillDate, StringFormat='Date: {0:dd/MM/yyyy}'}" FontWeight="Bold" Foreground="Gray"/>
-                                                    <TextBlock Text="{Binding Path=Items[0].Bill.BillSum, StringFormat='Total: {0:C}'}" FontWeight="Bold" Foreground="Red"/>
-                                                </StackPanel>
-                                            </Expander.Header>
-                                            <ItemsPresenter/>
-                                        </Expander>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
-            </ListView.GroupStyle>
+
+        <!-- Bills ListView -->
+        <ListView Grid.Row="1" Grid.Column="0" Margin="10" Name="bills" ItemsSource="{Binding Bills}" SelectedItem="{Binding SelectedBill}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Product Name" DisplayMemberBinding="{Binding Product.ProductName}" Width="150"/>
-                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="50"/>
-                    <GridViewColumn Header="Sum" DisplayMemberBinding="{Binding Sum}" Width="70"/>
+                    <GridViewColumn Header="Bill ID" DisplayMemberBinding="{Binding BillId}" Width="80"/>
+                    <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserId}" Width="80"/>
+                    <GridViewColumn Header="Total Sum" DisplayMemberBinding="{Binding BillSum}" Width="80"/>
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding BillDate}" Width="100"/>
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <!-- BillProducts ListView -->
+        <ListView Grid.Row="1" Grid.Column="1" Margin="10" Name="productBill" ItemsSource="{Binding SelectedBill.BillProducts}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Product ID" DisplayMemberBinding="{Binding Product.ProductName}" Width="90"/>
+                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="80"/>
+                    <GridViewColumn Header="Sum" DisplayMemberBinding="{Binding Sum}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </UserControl>
