@@ -1,6 +1,7 @@
 ﻿using Supermarket.DataAccess;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Supermarket.Business
@@ -64,34 +65,39 @@ namespace Supermarket.Business
             return new ObservableCollection<string>(_context.Products.Where(p => p.IsEnabled == true).Select(p => p.Barcode).ToList());
         }
 
-        internal ObservableCollection<Product> GetFilteredProducts(int? selectedProduct = null, int? selectedCategory = null, int? selectedProducer = null, DateTime? expirationDate = null)
+        internal ObservableCollection<Product> GetFilteredProducts(int selectedProduct, int selectedCategory, int selectedProducer, string barcode, DateTime expirationDate)
         {
             IQueryable<Product> products = _context.Products.Where(p => p.IsEnabled);
 
-            if (selectedProduct.HasValue && selectedProduct != -1)
+            if (selectedProduct > 0)
             {
-                products = products.Where(p => p.ProductId == selectedProduct.Value);
+                products = products.Where(p => p.ProductId == selectedProduct);
             }
 
-            if (selectedCategory.HasValue && selectedCategory != -1)
+            if (selectedCategory > 0)
             {
-                products = products.Where(p => p.CategoryId == selectedCategory.Value);
+                products = products.Where(p => p.CategoryId == selectedCategory);
             }
 
-            if (selectedProducer.HasValue && selectedProducer != -1)
+            if (selectedProducer > 0)
             {
-                products = products.Where(p => p.ProducerId == selectedProducer.Value);
+                products = products.Where(p => p.ProducerId == selectedProducer);
             }
 
-            if (expirationDate.HasValue && expirationDate != DateTime.MinValue)
+            if (expirationDate != DateTime.MinValue)
             {
-                products = products.Where(p => p.Stocks.Any(s => s.StockExpirationDate <= expirationDate.Value && s.IsEnabled));
+                DateTime normalizedExpirationDate = expirationDate.Date;
+
+                products = products.Where(p => p.Stocks.Any(s => DbFunctions.TruncateTime(s.StockExpirationDate) == normalizedExpirationDate && s.IsEnabled));
             }
 
-            // Execute the query by converting it to a List
+            if (barcode != null)
+            {
+                products = products.Where(p => p.Barcode == barcode);
+            }
+
             var productList = products.ToList();
 
-            // Now create an ObservableCollection from the list
             return new ObservableCollection<Product>(productList);
         }
 

@@ -42,5 +42,8 @@
             <DataTemplate DataType="{x:Type vm:UserValueViewModel}">
                 <v:UserValue/>
             </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GreatesBillViewModel}">
+            <v:GreatestBillView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

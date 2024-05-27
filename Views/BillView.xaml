@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -59,6 +60,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
+        <Button Grid.Row="3" Content="Get best bill" Command="{Binding GetBillCommand}" Width="80" Height="50" Margin="5" Background="#FF6347" Foreground="White"/>
     </Grid>
 </UserControl>

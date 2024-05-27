@@ -69,6 +69,9 @@ namespace Supermarket.ViewModels
                 case "UserValue":
                     CurrentViewModel = new UserValueViewModel();
                     break;
+                case "GreatestBill":
+                    CurrentViewModel = new GreatesBillViewModel();
+                    break;
             }
         }
     }

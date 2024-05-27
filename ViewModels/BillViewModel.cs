@@ -14,7 +14,9 @@ namespace Supermarket.ViewModels
         private readonly BillProductService _billProductsService;
         private Bill _selectedBill;
 
+
         public RelayCommand GoBackCommand { get; private set; }
+        public RelayCommand GetBillCommand { get; private set; }
 
         public BillViewModel()
         {
@@ -23,6 +25,7 @@ namespace Supermarket.ViewModels
             _billProductsService = new BillProductService();
 
             GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Admin")));
+            GetBillCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("GreatestBill")));
             Bills = _billService.GetAll();
             //BillProducts = _billProductsService.GetAll();
         }

@@ -52,7 +52,7 @@ namespace Supermarket.Business
                     CategoryName = c.CategoryName,
                     TotalSales = c.Products
                           .SelectMany(p => p.Stocks)
-                          .Sum(p => (decimal?)p.StockSellingPrice) ?? 0M  // Aplicați '??' aici
+                          .Sum(p => (decimal?)p.StockSellingPrice) ?? 0M
 
                 })
                 .ToList()

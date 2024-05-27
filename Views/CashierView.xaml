@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Supermarket.Views"
              xmlns:vm="clr-namespace:Supermarket.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             Height="550" Width="900"
              Background="WhiteSmoke"
              >
     <UserControl.DataContext>
@@ -38,17 +38,15 @@
                       ItemsSource="{Binding Producers}"
                       SelectedValue="{Binding SelectedProducer}" />
             <Label Content="Select Barcode:"/>
-            <ComboBox ItemsSource="{Binding Barcodes}"/>
+            <ComboBox ItemsSource="{Binding Barcodes}"  SelectedValue="{Binding SelectedBarcode}"/>
             <Label Content="Expiration Date:"/>
-            <DatePicker/>
+            <DatePicker SelectedDate="{Binding ExpirationDate}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
             <Label Content="Quantity:"/>
             <StackPanel Orientation="Horizontal">
-                <Button Content="-" Width="25"/>
                 <TextBox Text="{Binding Quantity}" Width="50"/>
-                <Button Content="+" Width="25"/>
             </StackPanel>
         </StackPanel>
         <Button Grid.Column="1" Grid.Row="2" Content="Add Product" Command="{Binding AddProductCommand}" Margin="5" Height="30"/>
@@ -62,26 +60,31 @@
                   >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductName}" Width="65"/>
-                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="65"/>
+                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductName}" Width="135"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <!-- Right Panel for Displaying Selected Products -->
-        <ListView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding ReceiptProducts}" Margin="10">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductId}" Width="120"/>
-                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="60"/>
-                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Sum}" Width="80"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-
+        <StackPanel Grid.Column="2" Grid.Row="0">
+            <ListView  Grid.RowSpan="2" ItemsSource="{Binding ReceiptProducts}" Margin="10">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductId}" Width="120"/>
+                        <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="60"/>
+                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Sum}" Width="80"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Total Price:"/>
+                <Label Content="{Binding TotalSum}"/>
+            </StackPanel>
+         </StackPanel>
+        
         <!-- Bottom Panel for Actions -->
         <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
+            <Button Grid.Column="0" Grid.Row="2" Command="{Binding GoBackCommand}" Margin="10" Padding="10 5" HorizontalAlignment="Left" Background="WhiteSmoke" Foreground="#FF6347" BorderBrush="#FF6347">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE112;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
                     <TextBlock Text=" Back" VerticalAlignment="Center" FontSize="16"/>

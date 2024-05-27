@@ -1,6 +1,8 @@
 ﻿using Supermarket.DataAccess;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Supermarket.Business
@@ -35,7 +37,7 @@ namespace Supermarket.Business
             Bill bill = new Bill
             {
                 BillDate = DateTime.Now,
-                UserId = 1,
+                UserId = userId,
                 BillSum = totalSum
             };
 
@@ -47,9 +49,31 @@ namespace Supermarket.Business
             foreach (var billProduct in receiptProducts)
             {
                 totalSum += billProduct.Sum;
-                billProduct.BillId = billId;
-                _billProductService.Add(billProduct);
+
+                var newBillProduct = new BillProduct
+                {
+                    BillId = billId,
+                    ProductId = billProduct.ProductId,
+                    Quantity = billProduct.Quantity,
+                    Sum = billProduct.Sum
+                };
+
+                _billProductService.Add(newBillProduct);
             }
+        }
+
+        internal ObservableCollection<Bill> GetGreatestBill(DateTime date)
+        {
+            date = date.Date;
+            var bill = _context.Bills
+                               .Include("BillProducts") // Include produsele facturate
+                               .Include("BillProducts.Product") // Include detalii despre produse
+                               .Where(b => DbFunctions.TruncateTime(b.BillDate) == date) // Folosește DbFunctions.TruncateTime pentru a ignora ora
+                               .OrderByDescending(b => b.BillSum) // Ordonează facturile descrescător după suma totală
+                               .FirstOrDefault(); // Selectează factura cu cea mai mare sumă
+
+            return new ObservableCollection<Bill>(bill != null ? new List<Bill> { bill } : new List<Bill>());
+
         }
     }
 }

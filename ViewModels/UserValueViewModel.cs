@@ -30,7 +30,7 @@ namespace Supermarket.ViewModels
         private ObservableCollection<string> months { get; set; }
         private ObservableCollection<DailySale> dailySales { get; set; }
 
-        private int selectedId { get; set; }
+        private int selectedUser { get; set; }
 
         private string selectedMonth { get; set; }
 
@@ -40,13 +40,12 @@ namespace Supermarket.ViewModels
 
         public int SelectedUser
         {
-            get => selectedId;
+            get => selectedUser;
             set
             {
-                selectedId = value;
-                OnPropertyChanged(nameof(selectedId));
-                var dailySales = _userService.GetValueByUserIdAndMonth(SelectedUser, SelectedMonth);
-                DailySales = new ObservableCollection<DailySale>(dailySales.Select(d => new DailySale(d.Date, d.TotalValue)).ToList());
+                selectedUser = value;
+                OnPropertyChanged(nameof(selectedUser));
+                LoadDailySalesData();
             }
         }
 
@@ -67,9 +66,7 @@ namespace Supermarket.ViewModels
             {
                 months = value;
                 OnPropertyChanged(nameof(Months));
-                var dailySales = _userService.GetValueByUserIdAndMonth(SelectedUser, SelectedMonth);
-                DailySales = new ObservableCollection<DailySale>(dailySales.Select(d => new DailySale(d.Date, d.TotalValue)).ToList());
-
+                LoadDailySalesData();
             }
 
         }
@@ -92,6 +89,7 @@ namespace Supermarket.ViewModels
             {
                 selectedMonth = value;
                 OnPropertyChanged(nameof(SelectedMonth));
+                LoadDailySalesData();
             }
         }
 
@@ -103,12 +101,10 @@ namespace Supermarket.ViewModels
             GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Users")));
             ListValueCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("UserValue")));
 
-            var res = _userService.GetValueByUserIdAndMonth(SelectedUser, SelectedMonth);
 
             Users = _userService.GetCashiers();
             Months = GenerateMonthCollection();
-            var dailySales = _userService.GetValueByUserIdAndMonth(SelectedUser, SelectedMonth);
-            DailySales = new ObservableCollection<DailySale>(dailySales.Select(d => new DailySale(d.Date, d.TotalValue)).ToList());
+            LoadDailySalesData();
         }
 
         private ObservableCollection<string> GenerateMonthCollection()
@@ -120,6 +116,19 @@ namespace Supermarket.ViewModels
                 months.Add(date.ToString("MM - MMMM", CultureInfo.CurrentCulture));
             }
             return months;
+        }
+
+        private void LoadDailySalesData()
+        {
+            if (!string.IsNullOrEmpty(SelectedMonth) && SelectedUser > 0)
+            {
+                // Parse the month part from "MM - MMMM"
+                int monthNumber = int.Parse(SelectedMonth.Substring(0, 2));
+                var year = DateTime.Now.Year; // Or a selected year if applicable
+
+                var dailySales = _userService.GetValueByUserIdAndMonth(SelectedUser, year, monthNumber);
+                DailySales = new ObservableCollection<DailySale>(dailySales.Select(d => new DailySale(d.Date, d.TotalValue)).ToList());
+            }
         }
     }
 }

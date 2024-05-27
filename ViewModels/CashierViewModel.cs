@@ -4,6 +4,7 @@ using Supermarket.Business;
 using Supermarket.DataAccess;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace Supermarket.ViewModels
@@ -29,6 +30,7 @@ namespace Supermarket.ViewModels
         private string selectedBarcode;
         private DateTime expirationDate;
         private int userId;
+        private decimal totalSum;
 
         private Product selectedProductToAdd;
         public Product SelectedProductToAdd
@@ -50,15 +52,16 @@ namespace Supermarket.ViewModels
             producersService = new ProducersService();
             billProductService = new BillProductService();
             billService = new BillService();
+            totalSum = 0;
 
             Producers = producersService.GetAll();
             Categories = categoryService.GetAll();
             Barcodes = productService.GetBarcodes();
 
             SelectedCategory = SelectedProducer = SelectedProduct = -1;
-            ExpirationDate = DateTime.MinValue;
+            ExpirationDate = DateTime.Now;
             SelectedBarcode = null;
-            FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, ExpirationDate);
+            FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, SelectedBarcode, ExpirationDate);
             ReceiptProducts = new ObservableCollection<BillProduct>();
 
             GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Login")));
@@ -68,7 +71,22 @@ namespace Supermarket.ViewModels
 
         private void GenerateReceipt()
         {
-            billService.Add(ReceiptProducts, userId);
+            try
+            {
+                billService.Add(ReceiptProducts, LoginService.CashierId);
+                ReceiptProducts.Clear();
+                TotalSum = 0;
+                SelectedBarcode = null;
+                SelectedCategory = 0;
+                SelectedProducer = 0;
+                SelectedProduct = 0;
+                ExpirationDate = DateTime.MinValue;
+                MessageBox.Show("Receipt generated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddProduct()
@@ -76,11 +94,13 @@ namespace Supermarket.ViewModels
             try
             {
                 billProductService.AddProduct(ReceiptProducts, SelectedProductToAdd, Quantity);
+                ReceiptProducts = new ObservableCollection<BillProduct>(ReceiptProducts);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            TotalSum = receiptProducts.Select(r => r.Sum).ToList().Sum();
         }
 
         public RelayCommand GoBackCommand { get; private set; }
@@ -142,8 +162,18 @@ namespace Supermarket.ViewModels
             {
                 selectedProduct = value;
                 OnPropertyChanged(nameof(SelectedProduct));
-                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, ExpirationDate);
+                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, SelectedBarcode, ExpirationDate);
 
+            }
+        }
+
+        public decimal TotalSum
+        {
+            get => totalSum;
+            set
+            {
+                totalSum = value;
+                OnPropertyChanged(nameof(TotalSum));
             }
         }
 
@@ -154,7 +184,7 @@ namespace Supermarket.ViewModels
             {
                 selectedCategory = value;
                 OnPropertyChanged(nameof(SelectedCategory));
-                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, ExpirationDate);
+                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, SelectedBarcode, ExpirationDate);
 
             }
         }
@@ -166,7 +196,7 @@ namespace Supermarket.ViewModels
             {
                 selectedProducer = value;
                 OnPropertyChanged(nameof(SelectedProducer));
-                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, ExpirationDate);
+                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, SelectedBarcode, ExpirationDate);
 
             }
         }
@@ -178,7 +208,7 @@ namespace Supermarket.ViewModels
             {
                 selectedBarcode = value;
                 OnPropertyChanged(nameof(SelectedBarcode));
-                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, ExpirationDate);
+                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, SelectedBarcode, ExpirationDate);
 
             }
         }
@@ -201,7 +231,7 @@ namespace Supermarket.ViewModels
             {
                 expirationDate = value;
                 OnPropertyChanged(nameof(ExpirationDate));
-                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, ExpirationDate);
+                FilteredProducts = productService.GetFilteredProducts(SelectedProduct, SelectedCategory, SelectedProducer, SelectedBarcode, ExpirationDate);
 
             }
         }

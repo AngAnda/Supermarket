@@ -12,6 +12,9 @@ namespace Supermarket.Business
             CASHIER
         }
 
+
+        public static int CashierId = 0;
+
         private readonly SupermarketEntities _context;
 
         public LoginService()

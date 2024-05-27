@@ -37,7 +37,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" Width="100"/>
-                    <GridViewColumn Header="Total Sales" DisplayMemberBinding="{Binding TotalSales}" Width="200"/>
+                    <GridViewColumn Header="Total Sales" DisplayMemberBinding="{Binding Value}" Width="200"/>
                 </GridView>
             </ListView.View>
         </ListView>

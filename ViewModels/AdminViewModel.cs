@@ -18,6 +18,8 @@ namespace Supermarket.ViewModels
 
         public ICommand ProducersCommand { get; set; }
 
+        public ICommand GoBackCommand { get; set; }
+
         public AdminViewModel()
         {
             UserCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Users")));
@@ -27,7 +29,7 @@ namespace Supermarket.ViewModels
             CategoryCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Categories")));
             BillCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Bills")));
             ProducersCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Producers")));
+            GoBackCommand = new RelayCommand(() => Messenger.Default.Send(new NotificationMessage("Login")));
         }
-
     }
 }

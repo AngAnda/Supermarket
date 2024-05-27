@@ -1,5 +1,6 @@
 ﻿using Supermarket.DataAccess;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -71,25 +72,18 @@ namespace Supermarket.Business
             return new ObservableCollection<User>(_context.Users.Select(u => u).Where(u => u.IsEnabled == true && u.IsAdmin == false).ToList());
         }
 
-        public ObservableCollection<(string Date, decimal TotalValue)> GetValueByUserIdAndMonth(int userId, string month)
+        public IEnumerable<(string Date, decimal TotalValue)> GetValueByUserIdAndMonth(int userId, int year, int month)
         {
-            // Presupunem că month este în formatul "YYYY-MM"
-            if (userId == null || month == null)
-                return new ObservableCollection<(string Date, decimal TotalValue)>();
-
-            var monthNumber = int.Parse(month.Substring(5, 2));
-
-            var result = _context.Bills
-                .Where(b => b.UserId == userId &&
-                            b.BillDate.Year == DateTime.Now.Year &&
-                            b.BillDate.Month == monthNumber)
-                .GroupBy(b => b.BillDate.Date)
-                .Select(g => new { Date = g.Key.ToString("yyyy-MM-dd"), TotalValue = g.Sum(b => b.BillSum) })
-                .ToList()
-                .Select(x => (x.Date, x.TotalValue))
+            var query = _context.Bills
+                .Where(b => b.UserId == userId && b.BillDate.Year == year && b.BillDate.Month == month)
+                .GroupBy(b => new { Year = b.BillDate.Year, Month = b.BillDate.Month, Day = b.BillDate.Day })
+                .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Day, TotalValue = g.Sum(b => b.BillSum) })
                 .ToList();
 
-            return new ObservableCollection<(string Date, decimal TotalValue)>(result);
+            var result = query.Select(x =>
+                (Date: new DateTime(x.Year, x.Month, x.Day).ToString("yyyy-MM-dd"), x.TotalValue));
+
+            return result;
         }
     }
 }

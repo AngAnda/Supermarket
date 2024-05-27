@@ -68,9 +68,11 @@
                         <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding StockQuantity}" Width="60"/>
                         <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding StockUnitOfMeasure}" Width="40"/>
                         <GridViewColumn Header="Supply" DisplayMemberBinding="{Binding StockSupplyDate}" Width="60"/>
-                        <GridViewColumn Header="Expiration" DisplayMemberBinding="{Binding StockExpirationDate}" Width="60"/>
-                        <GridViewColumn Header="Purchase" DisplayMemberBinding="{Binding StockPurchasePrice}" Width="60"/>
-                        <GridViewColumn Header="Selling" DisplayMemberBinding="{Binding StockSellingPrice}" Width="60"/>
+                        <GridViewColumn Header="Expiration" DisplayMemberBinding="{Binding StockExpirationDate}" Width="55"/>
+                        <GridViewColumn Header="Purchase" DisplayMemberBinding="{Binding StockPurchasePrice}" Width="55"/>
+                        <GridViewColumn Header="Selling" DisplayMemberBinding="{Binding StockSellingPrice}" Width="55"/>
+                        <GridViewColumn Header="Product" DisplayMemberBinding="{Binding Product.ProductName}" Width="50"/>
+                        <GridViewColumn Header="Is Enabled" DisplayMemberBinding="{Binding IsEnabled}" Width="55"/>
                     </GridView>
                 </ListView.View>
             </ListView>

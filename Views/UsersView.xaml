@@ -39,7 +39,7 @@
             <TextBox x:Name="PasswordBox" Text="{Binding Password}" Width="200" Height="30" Margin="5"/>
             <CheckBox x:Name="IsAdminCheckBox" Content="Is Admin?" Margin="5" HorizontalAlignment="Center"  IsChecked="{Binding IsAdmin, Mode=TwoWay}"/>
             <Button Content="Refresh" Command="{Binding RefreshFieldsCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
-            <Button Content="List cashiergains" Command="{Binding ListValueCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
+            <Button Content="List cashier gains" Command="{Binding ListValueCommand}" Width="100" Height="40" Margin="5" Background="#32CD32" Foreground="White"/>
         </StackPanel>
 
         <!-- List of Users -->

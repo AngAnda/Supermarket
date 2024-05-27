@@ -32,7 +32,10 @@ namespace Supermarket.ViewModels
                 OnPropertyChanged(nameof(SelectedCategory));
                 EditCategoryCommand.RaiseCanExecuteChanged();
                 DeleteCategoryCommand.RaiseCanExecuteChanged();
-                Name = SelectedCategory.CategoryName;
+                if (SelectedCategory != null)
+                    Name = SelectedCategory.CategoryName;
+                else
+                    Name = string.Empty;
             }
         }
 
