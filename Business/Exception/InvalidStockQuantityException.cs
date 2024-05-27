@@ -9,6 +9,5 @@ namespace Supermarket.Business
         public InvalidStockQuantityException() : base(message)
         {
         }
-
     }
 }

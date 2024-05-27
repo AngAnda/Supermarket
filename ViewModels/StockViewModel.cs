@@ -190,6 +190,8 @@ namespace Supermarket.ViewModels
             RegisterCommands();
             Stocks = _stockService.GetAll();
             Products = _productService.GetAll();
+            StockExpirationDate = DateTime.Now;
+            StockSupplyDate = DateTime.Now;
         }
 
 

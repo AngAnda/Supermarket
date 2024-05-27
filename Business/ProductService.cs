@@ -88,7 +88,7 @@ namespace Supermarket.Business
             {
                 DateTime normalizedExpirationDate = expirationDate.Date;
 
-                products = products.Where(p => p.Stocks.Any(s => DbFunctions.TruncateTime(s.StockExpirationDate) == normalizedExpirationDate && s.IsEnabled));
+                products = products.Where(p => p.Stocks.Any(s => DbFunctions.TruncateTime(s.StockExpirationDate) > normalizedExpirationDate && s.IsEnabled));
             }
 
             if (barcode != null)

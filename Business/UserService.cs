@@ -52,6 +52,9 @@ namespace Supermarket.Business
 
         public void Delete(int id)
         {
+            if (id < 0)
+                throw new Exception("Invalid user id");
+
             try
             {
                 _context.spDeleteUserById(id);

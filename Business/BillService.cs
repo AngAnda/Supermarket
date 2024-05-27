@@ -22,7 +22,7 @@ namespace Supermarket.Business
 
         public ObservableCollection<Bill> GetAll()
         {
-            return new ObservableCollection<Bill>(_context.Bills.Select(b => b).ToList());
+            return new ObservableCollection<Bill>(_context.Bills.Where(b => b.BillSum != 0).Select(b => b).OrderByDescending(b => b.BillId).ToList());
         }
 
         public void Add(ObservableCollection<BillProduct> receiptProducts, int userId)
@@ -66,11 +66,11 @@ namespace Supermarket.Business
         {
             date = date.Date;
             var bill = _context.Bills
-                               .Include("BillProducts") // Include produsele facturate
+                               .Include("BillProducts")
                                .Include("BillProducts.Product") // Include detalii despre produse
                                .Where(b => DbFunctions.TruncateTime(b.BillDate) == date) // Folosește DbFunctions.TruncateTime pentru a ignora ora
                                .OrderByDescending(b => b.BillSum) // Ordonează facturile descrescător după suma totală
-                               .FirstOrDefault(); // Selectează factura cu cea mai mare sumă
+                               .FirstOrDefault();
 
             return new ObservableCollection<Bill>(bill != null ? new List<Bill> { bill } : new List<Bill>());
 

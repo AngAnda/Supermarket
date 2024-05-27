@@ -77,6 +77,7 @@ namespace Supermarket.DataAccess
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
         }
+
     
         public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
         {
@@ -409,5 +410,14 @@ namespace Supermarket.DataAccess
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUpdateStockSellingPrice", stockIDParameter, newSellingPriceParameter);
         }
+
+        public virtual int UpdateCategory(int categoryId, string categoryName)
+        {
+            var categoryIdParameter = new ObjectParameter("CategoryId", categoryId);
+            var categoryNameParameter = new ObjectParameter("CategoryName", categoryName);
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateCategory", categoryIdParameter, categoryNameParameter);
+        }
+
     }
 }

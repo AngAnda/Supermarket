@@ -1,6 +1,8 @@
 ﻿using Supermarket.DataAccess;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Supermarket.Business
 {
@@ -40,6 +42,9 @@ namespace Supermarket.Business
 
         public void Delete(int id)
         {
+            if (id < 0)
+                throw new InvalidStockId();
+
             var stockToDelete = _context.Stocks.First(s => s.StockId == id);
             stockToDelete.IsEnabled = false;
             _context.SaveChanges();
@@ -52,7 +57,30 @@ namespace Supermarket.Business
 
         public Stock GetById(int id)
         {
+            if (id < 0)
+                throw new InvalidStockId();
+
             return _context.Stocks.First(s => s.StockId == id);
+        }
+    }
+
+    [Serializable]
+    internal class InvalidStockId : Exception
+    {
+        public InvalidStockId()
+        {
+        }
+
+        public InvalidStockId(string message) : base(message)
+        {
+        }
+
+        public InvalidStockId(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected InvalidStockId(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

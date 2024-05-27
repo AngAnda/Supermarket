@@ -86,7 +86,7 @@
     <Compile Include="Business\BillService.cs" />
     <Compile Include="Business\CategoryService.cs" />
     <Compile Include="Business\Exception\ExceedingQuantityException.cs" />
-    <Compile Include="Business\InvalidStockPurchasePrice.cs" />
+    <Compile Include="Business\Exception\InvalidStockPurchasePrice.cs" />
     <Compile Include="Business\Exception\InvalidStockQuantityException.cs" />
     <Compile Include="Business\LoginService.cs" />
     <Compile Include="Business\ProducersService.cs" />
